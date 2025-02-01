@@ -8,13 +8,14 @@ use std::io;
 use std::io::BufRead;
 use std::io::BufReader;
 use std::io::IsTerminal;
-use std::num::ParseIntError;
 use utf8_chars::BufReadCharsExt;
 
 mod cat;
+mod flags;
+mod shark;
 
 fn main() {
-    let mut filename: String = "".to_string();
+    let mut filename: String = String::new();
     let mut c = parse_cli_args(&mut filename);
 
     if filename == "" {
@@ -43,34 +44,15 @@ fn parse_cli_args(filename: &mut String) -> cat::Control {
     //let spread = matches.value_of("spread").unwrap_or("3.0");
     //let frequency = matches.value_of("frequency").unwrap_or("0.1");
 
-    let seed = 0;
+    let flag_color: String = matches.value_of("flag color").unwrap_or("femboy").to_string();
     
-    //let mut seed: f64 = seed.parse().unwrap();
-    //let spread: f64 = spread.parse().unwrap();
-    //let frequency: f64 = frequency.parse().unwrap();
-    /*
-    if seed == 0.0 {
-    seed = rand::random::<f64>() * 10e9;
-    }
-     */
+    let seed = 0;
+
     *filename = matches.value_of("filename").unwrap_or("").to_string();
 
     let print_color = matches.is_present("force-color") || std::io::stdout().is_terminal();
 
 	// If the terminal width is passed, use that. Else, get the size of the terminal. Else, use 0 (no overflow)
-    let terminal_width: Result<u16, ParseIntError> = matches.value_of("width")
-        .unwrap_or("")
-        .parse();
-    let terminal_width: u16 = match terminal_width {
-        Ok(width) => width,
-        Err(_) => {
-            let size = termsize::get();
-            match size {
-                Some(size) => size.cols,
-                None => 0b11111111_11111111,
-            }
-        }
-    };
 
     let terminal_supports_truecolor = match std::env::var("COLORTERM") {
         Ok(val) => val == "truecolor" || val == "24bit",
@@ -79,10 +61,10 @@ fn parse_cli_args(filename: &mut String) -> cat::Control {
 
     let mut retval = cat::Control {
         seed,
+	flag_name: flag_color,
         background_mode: matches.is_present("background"),
         dialup_mode: matches.is_present("dialup"),
         print_color,
-        terminal_width_plus_one: terminal_width.wrapping_add(1),
         terminal_supports_truecolor,
     };
 
@@ -93,6 +75,14 @@ fn parse_cli_args(filename: &mut String) -> cat::Control {
     if matches.is_present("version") {
         print_rainbow_help(true, &mut retval);
         std::process::exit(0);
+    }
+    if matches.is_present("flag") {
+	print_flag_graphic(&mut retval);
+	std::process::exit(0);
+    }
+    if matches.is_present("shark") {
+	print_shark(&mut retval);
+	std::process::exit(0);
     }
 
     retval
@@ -112,58 +102,55 @@ fn print_rainbow_help(only_version: bool, c: &mut cat::Control) {
     cat::print_lines_lol(help.lines(), c);
 }
 
+fn print_flag_graphic(c: &mut cat::Control) {
+    let flag_color = flags::get_flag(&c.flag_name);
+
+    let mut flag: String = String::new();
+
+    for _y in 0..flag_color.len() {
+	for _x in 0..(flag_color.len()*4) {
+	    flag += "█";
+	}
+	flag += "\n";
+    }
+
+    cat::print_lines_lol(flag.lines(), c);
+}
+
+fn print_shark(c: &mut cat::Control) {
+    cat::print_lines_lol(shark::SHARK.lines(), c);
+}
+
 fn lolcat_clap_app() -> App<'static, 'static> {
-    App::new("blahaj")
+    App::new("BLÅHAJ")
         .version(env!("CARGO_PKG_VERSION"))
-        .author(env!("CARGO_PKG_AUTHORS"))
-        .about(env!("CARGO_PKG_DESCRIPTION"))
-        .arg(
-            Arg::with_name("seed")
-                .short("s")
-                .long("seed")
-                .help("A seed for your blahaj. Setting this to 0 randomizes the seed.")
-                .takes_value(true),
-        )
-        .arg(
-            Arg::with_name("spread")
-                .short("S")
-                .long("spread")
-                .help("How much should we spread dem colors? Defaults to 3.0")
-                .takes_value(true),
-        )
-        .arg(
-            Arg::with_name("frequency")
-                .short("f")
-                .long("frequency")
-                .help("Frequency - used in our math. Defaults to 0.1")
-                .takes_value(true),
-        )
-        .arg(
+	.arg(
             Arg::with_name("background")
-                .short("B")
-                .long("bg")
-                .help("Background mode - If selected the background will be rainbow. Default false")
+                .short("b")
+                .long("background")
+                .help("Color the background")
                 .takes_value(false),
         )
-        .arg(
-            Arg::with_name("dialup")
-                .short("D")
-                .long("dialup")
-                .help("Dialup mode - Simulate dialup connection")
-                .takes_value(false),
-        )
-        .arg(
-            Arg::with_name("force-color")
-                .short("F")
-                .long("force-color")
-                .help("Force color - Print escape sequences even if the output is not a terminal")
-                .takes_value(false),
-        )
-        .arg(
-            Arg::with_name("width")
-                .long("terminal-width")
-                .help("Terminal width - Set a custom terminal wrapping width, or 0 for unlimited")
+ 	.arg (
+	    Arg::with_name("flag color")
+                .short("c")
+                .long("colors")
+                .help("Color scheme to use (Default: femboy)")
                 .takes_value(true),
+	)
+        .arg(
+            Arg::with_name("shark")
+                .short("s")
+                .long("shark")
+                .help("Shork :3")
+                .takes_value(false),
+        )
+        .arg(
+            Arg::with_name("flag")
+                .short("f")
+                .long("flag")
+                .help("Return a flag")
+                .takes_value(false),
         )
         .arg(
             Arg::with_name("filename")
@@ -178,13 +165,6 @@ fn lolcat_clap_app() -> App<'static, 'static> {
                 .short("h")
                 .long("help")
                 .help("Prints help information")
-                .takes_value(false),
-        )
-        .arg(
-            Arg::with_name("version")
-                .short("V")
-                .long("version")
-                .help("Prints version information")
                 .takes_value(false),
         )
 }

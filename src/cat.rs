@@ -8,13 +8,15 @@ use std::time::Duration;
 use std::io::stdout;
 use std::io::Write;
 
+use crate::flags;
+
 // A struct to contain info we need to print with every character
 pub struct Control {
     pub seed: usize,
+    pub flag_name: String,
     pub background_mode: bool,
     pub dialup_mode: bool,
     pub print_color: bool,
-    pub terminal_width_plus_one: u16,
     pub terminal_supports_truecolor: bool,
 }
 
@@ -39,7 +41,6 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
     c: &mut Control,
     constantly_flush: bool,
 ) {
-    let mut seed_at_start_of_line = c.seed;
     let mut ignoring_whitespace = c.background_mode;
     let mut printed_chars_on_line_plus_one = 1u16;
 
@@ -122,15 +123,6 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
             // If not an escape sequence or a newline, print a colorful escape sequence and then the
             // character
             _ => {
-		/*
-                if printed_chars_on_line_plus_one == c.terminal_width_plus_one {
-                    handle_newline(
-                        c,
-                        &mut ignoring_whitespace,
-                        &mut printed_chars_on_line_plus_one,
-                    );
-                }
-		*/
                 // In background mode, don't print colorful whitespace until the first printable character
                 if ignoring_whitespace && character.is_whitespace() {
                     print!("{}", character);
@@ -140,7 +132,6 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
                 }
 
                 colored_print(character, c);
-                //c.seed += 1.0;
                 printed_chars_on_line_plus_one += 1;
             }
         }
@@ -174,8 +165,7 @@ fn handle_newline(
         sleep(stall);
     }
 
-    //*seed_at_start_of_line += 1.0;
-    c.seed += 1;//*seed_at_start_of_line; // Reset the seed, but bump it a bit
+    c.seed += 1;
     *ignoring_whitespace = c.background_mode;
     *printed_chars_on_line_plus_one = 1u16;
 }
@@ -258,23 +248,8 @@ fn conv_grayscale(color: (u8, u8, u8)) -> u8 {
 }
 
 fn get_color_tuple(c: &Control) -> (u8, u8, u8) {
-    let femboy = [(210, 96,  165),
-		  (228, 175, 205),
-		  (254, 254, 254),
-		  (87,  206, 248),
-		  (254, 254, 254),
-		  (228, 175, 205),
-		  (210, 96,  165)];
-
-    /*
-    let i = c.seed;
-    let red = i.sin() * 127.00 + 128.00;
-    let green = (i + (std::f64::consts::PI * 2.00 / 3.00)).sin() * 127.00 + 128.00;
-    let blue = (i + (std::f64::consts::PI * 4.00 / 3.00)).sin() * 127.00 + 128.00;
-     */
-    
-    //(red as u8, green as u8, blue as u8)
-    femboy[c.seed%7]
+    let flag_color = flags::get_flag(&c.flag_name);
+    flag_color[c.seed % flag_color.len()]
 }
 
 // Returns closest supported 256-color an RGB value

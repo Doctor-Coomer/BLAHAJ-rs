@@ -1,4 +1,4 @@
-# Lolcat
+# BLAHAJ-rs 
 
 The good ol' lolcat, now with fearless concurrency.
 
@@ -8,7 +8,7 @@ Run lolcat on everything you like and you'll never have to wonder about the dull
 
 ## Installation
 
-Rustacean? Just run `cargo install lolcat`.
+Soon™
 
 ## License
 
