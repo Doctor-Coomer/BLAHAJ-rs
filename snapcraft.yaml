@@ -1,18 +1,18 @@
-name: lolcat-rs
-version: '1.3.2'
-summary: Lolcat adds color to your life.
+name: BLAHAJ-rs
+version: '1.0.0'
+summary: Gay sharks at your local terminal.
 base: core18
 description: |
-  Lolcat-rs is the Rust re-implementation of the original lolcat. It is
-  fast, beautiful and does not have *any* dependencies.
+  BLAHAJ-rs is the Rust re-implementation of the original BLAHAJ. It is
+  fast, and can flush stdout unlike the Crystal language.
 apps:
-        lolcat-rs:
-                command: bin/lolcat
+        BLAHAJ-rs:
+                command: bin/blahaj
 
 grade: stable
 confinement: strict
 
 parts:
-  lolcat:
-          source: https://github.com/ur0/lolcat.git
+  blahaj:
+          source: https://github.com/yoshisaac/BLAHAJ-rs.git
           plugin: rust

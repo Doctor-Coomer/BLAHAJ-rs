@@ -39,18 +39,20 @@ fn lolcat_file(filename: &str, c: &mut cat::Control) -> Result<(), io::Error> {
 fn parse_cli_args(filename: &mut String) -> cat::Control {
     let matches = lolcat_clap_app().get_matches();
 
-    let seed = matches.value_of("seed").unwrap_or("0.0");
-    let spread = matches.value_of("spread").unwrap_or("3.0");
-    let frequency = matches.value_of("frequency").unwrap_or("0.1");
+    //let seed = matches.value_of("seed").unwrap_or("0.0");
+    //let spread = matches.value_of("spread").unwrap_or("3.0");
+    //let frequency = matches.value_of("frequency").unwrap_or("0.1");
 
-    let mut seed: f64 = seed.parse().unwrap();
-    let spread: f64 = spread.parse().unwrap();
-    let frequency: f64 = frequency.parse().unwrap();
-
+    let seed = 0;
+    
+    //let mut seed: f64 = seed.parse().unwrap();
+    //let spread: f64 = spread.parse().unwrap();
+    //let frequency: f64 = frequency.parse().unwrap();
+    /*
     if seed == 0.0 {
-        seed = rand::random::<f64>() * 10e9;
+    seed = rand::random::<f64>() * 10e9;
     }
-
+     */
     *filename = matches.value_of("filename").unwrap_or("").to_string();
 
     let print_color = matches.is_present("force-color") || std::io::stdout().is_terminal();
@@ -77,8 +79,6 @@ fn parse_cli_args(filename: &mut String) -> cat::Control {
 
     let mut retval = cat::Control {
         seed,
-        spread,
-        frequency,
         background_mode: matches.is_present("background"),
         dialup_mode: matches.is_present("dialup"),
         print_color,
@@ -113,7 +113,7 @@ fn print_rainbow_help(only_version: bool, c: &mut cat::Control) {
 }
 
 fn lolcat_clap_app() -> App<'static, 'static> {
-    App::new("lolcat")
+    App::new("blahaj")
         .version(env!("CARGO_PKG_VERSION"))
         .author(env!("CARGO_PKG_AUTHORS"))
         .about(env!("CARGO_PKG_DESCRIPTION"))
@@ -121,7 +121,7 @@ fn lolcat_clap_app() -> App<'static, 'static> {
             Arg::with_name("seed")
                 .short("s")
                 .long("seed")
-                .help("A seed for your lolcat. Setting this to 0 randomizes the seed.")
+                .help("A seed for your blahaj. Setting this to 0 randomizes the seed.")
                 .takes_value(true),
         )
         .arg(
@@ -169,7 +169,7 @@ fn lolcat_clap_app() -> App<'static, 'static> {
             Arg::with_name("filename")
                 .short("i")
                 .long("input file name")
-                .help("Lolcat this file. Reads from STDIN if missing")
+                .help("Blahaj this file. Reads from STDIN if missing")
                 .takes_value(true)
                 .index(1),
         )

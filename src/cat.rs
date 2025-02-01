@@ -10,9 +10,7 @@ use std::io::Write;
 
 // A struct to contain info we need to print with every character
 pub struct Control {
-    pub seed: f64,
-    pub spread: f64,
-    pub frequency: f64,
+    pub seed: usize,
     pub background_mode: bool,
     pub dialup_mode: bool,
     pub print_color: bool,
@@ -113,11 +111,10 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
                 }
             }
             // Newlines print escape sequences to end background prints, and in dialup mode sleep, and
-            // reset the seed of the coloring and the value of ignore_whitespace
-            '\n' => {
+            // reset the seed of the coloring and the value of ignore_whitespace	    
+	    '\n' => {
                 handle_newline(
                     c,
-                    &mut seed_at_start_of_line,
                     &mut ignoring_whitespace,
                     &mut printed_chars_on_line_plus_one,
                 );
@@ -125,14 +122,15 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
             // If not an escape sequence or a newline, print a colorful escape sequence and then the
             // character
             _ => {
+		/*
                 if printed_chars_on_line_plus_one == c.terminal_width_plus_one {
                     handle_newline(
                         c,
-                        &mut seed_at_start_of_line,
                         &mut ignoring_whitespace,
                         &mut printed_chars_on_line_plus_one,
                     );
                 }
+		*/
                 // In background mode, don't print colorful whitespace until the first printable character
                 if ignoring_whitespace && character.is_whitespace() {
                     print!("{}", character);
@@ -142,7 +140,7 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
                 }
 
                 colored_print(character, c);
-                c.seed += 1.0;
+                //c.seed += 1.0;
                 printed_chars_on_line_plus_one += 1;
             }
         }
@@ -156,9 +154,9 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
     }
 }
 
+
 fn handle_newline(
     c: &mut Control,
-    seed_at_start_of_line: &mut f64,
     ignoring_whitespace: &mut bool,
     printed_chars_on_line_plus_one: &mut u16,
 ) {
@@ -176,8 +174,8 @@ fn handle_newline(
         sleep(stall);
     }
 
-    *seed_at_start_of_line += 1.0;
-    c.seed = *seed_at_start_of_line; // Reset the seed, but bump it a bit
+    //*seed_at_start_of_line += 1.0;
+    c.seed += 1;//*seed_at_start_of_line; // Reset the seed, but bump it a bit
     *ignoring_whitespace = c.background_mode;
     *printed_chars_on_line_plus_one = 1u16;
 }
@@ -260,12 +258,23 @@ fn conv_grayscale(color: (u8, u8, u8)) -> u8 {
 }
 
 fn get_color_tuple(c: &Control) -> (u8, u8, u8) {
-    let i = c.frequency * c.seed / c.spread;
+    let femboy = [(210, 96,  165),
+		  (228, 175, 205),
+		  (254, 254, 254),
+		  (87,  206, 248),
+		  (254, 254, 254),
+		  (228, 175, 205),
+		  (210, 96,  165)];
+
+    /*
+    let i = c.seed;
     let red = i.sin() * 127.00 + 128.00;
     let green = (i + (std::f64::consts::PI * 2.00 / 3.00)).sin() * 127.00 + 128.00;
     let blue = (i + (std::f64::consts::PI * 4.00 / 3.00)).sin() * 127.00 + 128.00;
-
-    (red as u8, green as u8, blue as u8)
+     */
+    
+    //(red as u8, green as u8, blue as u8)
+    femboy[c.seed%7]
 }
 
 // Returns closest supported 256-color an RGB value

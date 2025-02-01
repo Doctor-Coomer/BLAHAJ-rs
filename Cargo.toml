@@ -1,10 +1,10 @@
 [package]
-name = "lolcat"
-version = "1.5.2"
-authors = ["Umang Raghuvanshi and the lolcat contributors"]
-description = "The good ol' lolcat, now with fearless concurrency."
+name = "blahaj-rs"
+version = "1.0.0"
+authors = ["Umang Raghuvanshi for lolcat-rs, the lolcat contributors, and Dr_Coomer the forker"]
+description = "Gay sharks at your local terminal - but in rust! lolcat-like CLI tool"
 license = "MIT"
-repository = "https://github.com/ur0/lolcat"
+repository = "https://github.com/yoshisaac/BLAHAJ-rs"
 
 [dependencies]
 clap = "2.33.0"
