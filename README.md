@@ -17,7 +17,10 @@ The original program was written in Crystal, which to my knowledge has no way to
 ## Compilation
 
 ```console
+$ git clone https://github.com/yoshisaac/BLAHAJ-rs.git
+$ cd BLAHAJ-rs
 $ cargo build --release
+$ cargo run --release
 ```
 
 ## Installation
