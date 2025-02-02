@@ -14,6 +14,8 @@ The original program was written in Crystal, which to my knowledge has no way to
 
 ![Flags](https://r2.e-z.host/bb3dfc85-7f7f-4dcb-8b0b-3a4af0aa57e4/xwtsrkq2upbswwzn78.png)
 
+![Cool animation](https://r2.e-z.host/bb3dfc85-7f7f-4dcb-8b0b-3a4af0aa57e4/gh64ey4zt48ppn7anp.gif)
+
 ## Compilation
 
 ```console
