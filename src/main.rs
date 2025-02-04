@@ -1,6 +1,7 @@
 extern crate clap;
 extern crate rand;
 extern crate utf8_chars;
+extern crate ctrlc;
 
 use clap::{App, Arg};
 use std::fs::File;
@@ -15,6 +16,14 @@ mod flags;
 mod shark;
 
 fn main() {
+
+    //Makes the cursor visible, if once it wasn't, once the program terminates unexpectedly.
+    ctrlc::set_handler(move || {
+        print!("\u{001B}[?25h");
+	std::process::exit(0);
+    }).expect("Error setting Ctrl-C handler.");
+
+
     let mut filename: String = String::new();
     let mut c = parse_cli_args(&mut filename);
 
