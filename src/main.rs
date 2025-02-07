@@ -23,7 +23,6 @@ fn main() {
 	std::process::exit(0);
     }).expect("Error setting Ctrl-C handler.");
 
-
     let mut filename: String = String::new();
     let mut c = parse_cli_args(&mut filename);
 
