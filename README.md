@@ -1,7 +1,7 @@
 <p align="center">
   <img width="750" height="300" alt="BLÅHAJ ascii art in femboy flag colors" src="./shark.svg">
 </p>
-<h1 align="center">BLÅHAJ</h1>
+<h1 align="center">BLÅHAJ-rs</h1>
 <h4 align="center">Gay sharks at your local terminal</h4>
 
 This program is a Rust port of the CLI tool [BLAHAJ](https://github.com/GeopJr/BLAHAJ).  
