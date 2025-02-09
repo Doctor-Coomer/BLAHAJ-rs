@@ -4,10 +4,9 @@
 <h1 align="center">BLÅHAJ-rs</h1>
 <h4 align="center">Gay sharks at your local terminal</h4>
 
-This program is a Rust port of the CLI tool [BLAHAJ](https://github.com/GeopJr/BLAHAJ).  
-
 ## What is BLÅHAJ-rs?
 
+This program is a Rust port of the CLI tool [BLAHAJ](https://github.com/GeopJr/BLAHAJ).  
 The original program was written in Crystal, which to my knowledge has no way to flush I/O. That is annoying. The obvious solution was to write it in rust.
 
 ## Compilation
