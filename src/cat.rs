@@ -1,10 +1,5 @@
 extern crate rand;
 
-use rand::Rng;
-
-use std::thread::sleep;
-use std::time::Duration;
-
 use std::io::stdout;
 use std::io::Write;
 
@@ -15,7 +10,8 @@ pub struct Control {
     pub seed: usize,
     pub flag_name: String,
     pub background_mode: bool,
-    pub dialup_mode: bool,
+    pub individual_mode: bool,
+    pub word_mode: bool,
     pub print_color: bool,
     pub terminal_supports_truecolor: bool,
 }
@@ -123,16 +119,23 @@ pub fn print_chars_lol<I: Iterator<Item = char>>(
             // If not an escape sequence or a newline, print a colorful escape sequence and then the
             // character
             _ => {
-                // In background mode, don't print colorful whitespace until the first printable character
-                if ignoring_whitespace && character.is_whitespace() {
-                    print!("{}", character);
-                    continue;
-                } else {
-                    ignoring_whitespace = false;
-                }
 
-                colored_print(character, c);
-                printed_chars_on_line_plus_one += 1;
+		if c.background_mode && character.is_whitespace() {
+		    print!("\x1b[49m");
+		    print!("{}", character);
+		} else {
+		    colored_print(character, c);
+		}
+		
+		if c.individual_mode && !character.is_whitespace() {
+		    c.seed += 1;
+		}
+
+		if c.word_mode && character.is_whitespace() {
+		    c.seed += 1;
+		}
+		
+		printed_chars_on_line_plus_one += 1;
             }
         }
 
@@ -160,12 +163,10 @@ fn handle_newline(
         }
     }
     println!();
-    if c.dialup_mode {
-        let stall = Duration::from_millis(rand::thread_rng().gen_range(30, 700));
-        sleep(stall);
-    }
 
-    c.seed += 1;
+    if !c.individual_mode && !c.word_mode {
+	c.seed += 1;
+    }
     *ignoring_whitespace = c.background_mode;
     *printed_chars_on_line_plus_one = 1u16;
 }

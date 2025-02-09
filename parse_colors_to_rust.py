@@ -1,3 +1,5 @@
+print("//This file was generated automatically by \"parse_colors_to_rust.py\"\n\n")
+
 f = open("./colors.yaml")
 contents = f.read()
 
@@ -32,7 +34,7 @@ def hex2rgb(h:str):
     return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16))
 
 def spaces(i:int):
-    for j in range(i):
+    for _ in range(i):
         print(" ", end="")
 
 """

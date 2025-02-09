@@ -48,10 +48,6 @@ fn lolcat_file(filename: &str, c: &mut cat::Control) -> Result<(), io::Error> {
 fn parse_cli_args(filename: &mut String) -> cat::Control {
     let matches = lolcat_clap_app().get_matches();
 
-    //let seed = matches.value_of("seed").unwrap_or("0.0");
-    //let spread = matches.value_of("spread").unwrap_or("3.0");
-    //let frequency = matches.value_of("frequency").unwrap_or("0.1");
-
     let flag_color: String = matches.value_of("flag color").unwrap_or("femboy").to_string();
     
     let seed = 0;
@@ -71,8 +67,9 @@ fn parse_cli_args(filename: &mut String) -> cat::Control {
         seed,
 	flag_name: flag_color,
         background_mode: matches.is_present("background"),
-        dialup_mode: matches.is_present("dialup"),
-        print_color,
+	individual_mode: matches.is_present("individual"),
+	word_mode: matches.is_present("words"),
+	print_color,
         terminal_supports_truecolor,
     };
 
@@ -146,6 +143,20 @@ fn lolcat_clap_app() -> App<'static, 'static> {
                 .help("Color scheme to use (Default: femboy)")
                 .takes_value(true),
 	)
+ 	.arg (
+	    Arg::with_name("individual")
+                .short("i")
+                .long("individual")
+                .help("Color individual characters")
+                .takes_value(false),
+	)
+	.arg (
+	    Arg::with_name("words")
+                .short("w")
+                .long("words")
+                .help("Color individual words")
+                .takes_value(false),
+	)        
         .arg(
             Arg::with_name("shark")
                 .short("s")
