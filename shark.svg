@@ -2,7 +2,7 @@
     <style>
         * {
             font-family: Courier, monospace;
-            font-size: 14px;
+            font-size: 90%;
         }
         tspan, text {
             font-variant-ligatures: none;
