@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="512" alt="BLÅHAJ ascii art in femboy flag colors" src="./shark.svg">
+  <img alt="BLÅHAJ ascii art in femboy flag colors" src="./shark.svg">
 </p>
 <h1 align="center">BLÅHAJ</h1>
 <h4 align="center">Gay sharks at your local terminal</h4>
