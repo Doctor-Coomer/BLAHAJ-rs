@@ -48,7 +48,12 @@ fn lolcat_file(filename: &str, c: &mut cat::Control) -> Result<(), io::Error> {
 fn parse_cli_args(filename: &mut String) -> cat::Control {
     let matches = lolcat_clap_app().get_matches();
 
-    let flag_color: String = matches.value_of("flag color").unwrap_or("femboy").to_string();
+    let flag_color: String;
+    if matches.is_present("random") {
+	flag_color = flags::ALL_NAMES[rand::random::<usize>()%flags::ALL_NAMES.len()].to_string(); 
+    } else {
+	flag_color = matches.value_of("flag color").unwrap_or("femboy").to_string();
+    }
     
     let seed = 0;
 
@@ -171,6 +176,13 @@ fn lolcat_clap_app() -> App<'static, 'static> {
                 .help("Return a flag")
                 .takes_value(false),
         )
+        .arg(
+            Arg::with_name("random")
+                .short("r")
+                .long("random")
+                .help("Use a random color scheme")
+                .takes_value(false),
+        )	
         .arg(
             Arg::with_name("filename")
                 .short("i")

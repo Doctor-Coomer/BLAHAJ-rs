@@ -6,7 +6,7 @@
 
 ## What is BLÅHAJ-rs?
 
-This program is a Rust port of the CLI tool [BLAHAJ](https://github.com/GeopJr/BLAHAJ).  
+This Program is a Rust port of the CLI tool [BLAHAJ](https://github.com/GeopJr/BLAHAJ).  
 The original program was written in Crystal, which to my knowledge has no way to flush I/O. That is annoying. The obvious solution was to write it in rust.
 
 ## Compilation

@@ -1,3 +1,6 @@
+//This file was generated automatically by "parse_colors_to_rust.py"
+
+
 pub static TRANS: &[(u8, u8, u8)] = &[(91, 206, 250),
                                       (245, 169, 184),
                                       (255, 255, 255),
@@ -263,6 +266,41 @@ pub static SAPPHIC: &[(u8, u8, u8)] = &[(102, 51, 153),
                                         ];
 
 pub static NONE:   &[(u8, u8, u8)] = &[(  0,   0,   0)];
+
+pub static ALL_NAMES: &[&str] = &["trans",
+                                  "transbian",
+                                  "agender",
+                                  "ambiamorous",
+                                  "aroace",
+                                  "gay",
+                                  "ace",
+                                  "aro",
+                                  "bi",
+                                  "genderfluid",
+                                  "genderqueer",
+                                  "nb",
+                                  "omnisexual",
+                                  "bigender",
+                                  "pansexual",
+                                  "pangender",
+                                  "pride",
+                                  "philadelphia",
+                                  "plural",
+                                  "polysexual",
+                                  "progress",
+                                  "lesbian",
+                                  "queer",
+                                  "demigender",
+                                  "demiboy",
+                                  "demigirl",
+                                  "abrosexual",
+                                  "bear",
+                                  "xenogender",
+                                  "femboy",
+                                  "genderfae",
+                                  "graysexual",
+                                  "sapphic",
+                                  ];
 
 pub fn get_flag(flag_name: &str) -> &'static [(u8, u8, u8)] {
     if flag_name == "trans" || flag_name == "transgender"

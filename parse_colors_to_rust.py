@@ -60,6 +60,29 @@ for i in range(len(flagnames)):
 
 print("pub static NONE:   &[(u8, u8, u8)] = &[(  0,   0,   0)];\n")
 
+
+"""
+#create array of all the flag arrays
+print("pub static ALL: &[&[(u8, u8, u8)]] = &[", end="")
+for i in range(len(flagnames)):
+    if i != 0:
+        spaces(len("pub static ALL: &[&[(u8, u8, u8)]] = &["))
+
+    print(f"{flagnames[i].upper()},")
+spaces(len("pub static ALL: &[&[(u8, u8, u8)]] = &["))
+print("];\n")
+"""
+
+#create a string array of all the flag names
+print("pub static ALL_NAMES: &[&str] = &[", end="")
+for i in range(len(flagnames)):
+    if i != 0:
+        spaces(len("pub static ALL_NAMES: &[&str] = &["))
+
+    print(f"\"{flagnames[i]}\",")
+spaces(len("pub static ALL_NAMES: &[&str] = &["))
+print("];\n")
+
 #create color getter function
 print("pub fn get_flag(flag_name: &str) -> &'static [(u8, u8, u8)] {")
 for i in range(len(flagnames)):
