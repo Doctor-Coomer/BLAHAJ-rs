@@ -79,9 +79,9 @@ pub static GENDERFLUID: &[(u8, u8, u8)] = &[(255, 117, 162),
                                             (51, 62, 189),
                                             ];
 
-pub static GENDERQUEER: &[(u8, u8, u8)] = &[(181, 126, 220),
+pub static GENDERQUEER: &[(u8, u8, u8)] = &[(184, 153, 223),
                                             (255, 255, 255),
-                                            (74, 129, 35),
+                                            (107, 142, 59),
                                             ];
 
 pub static NB: &[(u8, u8, u8)] = &[(255, 244, 48),
@@ -301,6 +301,41 @@ pub static ALL_NAMES: &[&str] = &["trans",
                                   "graysexual",
                                   "sapphic",
                                   ];
+
+pub static ALL_NAMES_SORTED: &[&str] = &["abrosexual",
+                                         "ace",
+                                         "agender",
+                                         "ambiamorous",
+                                         "aro",
+                                         "aroace",
+                                         "bear",
+                                         "bi",
+                                         "bigender",
+                                         "demiboy",
+                                         "demigender",
+                                         "demigirl",
+                                         "femboy",
+                                         "gay",
+                                         "genderfae",
+                                         "genderfluid",
+                                         "genderqueer",
+                                         "graysexual",
+                                         "lesbian",
+                                         "nb",
+                                         "omnisexual",
+                                         "pangender",
+                                         "pansexual",
+                                         "philadelphia",
+                                         "plural",
+                                         "polysexual",
+                                         "pride",
+                                         "progress",
+                                         "queer",
+                                         "sapphic",
+                                         "trans",
+                                         "transbian",
+                                         "xenogender",
+                                         ];
 
 pub fn get_flag(flag_name: &str) -> &'static [(u8, u8, u8)] {
     if flag_name == "trans" || flag_name == "transgender"

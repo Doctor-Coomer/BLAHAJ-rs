@@ -47,7 +47,7 @@ fn lolcat_file(filename: &str, c: &mut cat::Control) -> Result<(), io::Error> {
 
 fn parse_cli_args(filename: &mut String) -> cat::Control {
     let matches = lolcat_clap_app().get_matches();
-
+    
     let flag_color: String;
     if matches.is_present("random") {
 	flag_color = flags::ALL_NAMES[rand::random::<usize>()%flags::ALL_NAMES.len()].to_string(); 
@@ -60,8 +60,6 @@ fn parse_cli_args(filename: &mut String) -> cat::Control {
     *filename = matches.value_of("filename").unwrap_or("").to_string();
 
     let print_color = matches.is_present("force-color") || std::io::stdout().is_terminal();
-
-	// If the terminal width is passed, use that. Else, get the size of the terminal. Else, use 0 (no overflow)
 
     let terminal_supports_truecolor = match std::env::var("COLORTERM") {
         Ok(val) => val == "truecolor" || val == "24bit",
@@ -79,52 +77,81 @@ fn parse_cli_args(filename: &mut String) -> cat::Control {
     };
 
     if matches.is_present("help") {
-        print_rainbow_help(false, &mut retval);
-        std::process::exit(0);
-    }
-    if matches.is_present("version") {
-        print_rainbow_help(true, &mut retval);
+        print_rainbow_help(&mut retval);
         std::process::exit(0);
     }
     if matches.is_present("flag") {
-	print_flag_graphic(&mut retval);
+	let size_mul: usize = match matches.value_of("multiplier") {
+	    Some(a) => a.parse::<usize>().unwrap(),
+	    None => 1
+	}; 
+	print_flag_graphic(size_mul, &mut retval);
 	std::process::exit(0);
     }
     if matches.is_present("shark") {
 	print_shark(&mut retval);
 	std::process::exit(0);
     }
-
+    if matches.is_present("flags") {
+	print_all_flags_and_names(&mut retval);
+	std::process::exit(0);	
+    }
+    
     retval
 }
 
-fn print_rainbow_help(only_version: bool, c: &mut cat::Control) {
+fn print_rainbow_help(c: &mut cat::Control) {
     let app = lolcat_clap_app();
 
     let mut help = Vec::new();
-    if only_version {
-        app.write_version(&mut help).unwrap();
-    } else {
-        app.write_help(&mut help).unwrap();
-    }
+    app.write_help(&mut help).unwrap();
     let help = String::from_utf8(help).unwrap();
 
-    cat::print_lines_lol(help.lines(), c);
+    println!("{}", help);
+    //cat::print_lines_lol(help.lines(), c);
 }
 
-fn print_flag_graphic(c: &mut cat::Control) {
+fn print_flag_graphic(mul: usize, c: &mut cat::Control) {
     let flag_color = flags::get_flag(&c.flag_name);
 
     let mut flag: String = String::new();
-
-    for _y in 0..flag_color.len() {
-	for _x in 0..(flag_color.len()*4) {
+    let mut seed: usize = 0;
+    
+    for y in 1..flag_color.len()*mul+1 {
+	for _x in 0..(flag_color.len()*4)*mul {
 	    flag += "█";
+	}	
+	c.seed = seed;
+	if y%mul == 0 {
+	    seed += 1;
 	}
-	flag += "\n";
+ 	cat::print_lines_lol(flag.lines(), c);
+	flag = String::new();
     }
 
-    cat::print_lines_lol(flag.lines(), c);
+}
+
+fn print_all_flags_and_names(c: &mut cat::Control) {
+    c.individual_mode = true;
+    
+    println!("Available flags/colors:\n");
+
+    for i in 0..flags::ALL_NAMES_SORTED.len() {
+	let mut flag_name: String = flags::ALL_NAMES_SORTED[i].to_string();
+	flag_name.replace_range(0..1, &flag_name[0..1].to_uppercase());
+	let flag_color = flags::get_flag(&flags::ALL_NAMES_SORTED[i]);
+	c.flag_name = flags::ALL_NAMES_SORTED[i].to_string();
+	c.seed = 0;
+	
+	let mut flag = String::new();
+	for _x in 0..flag_color.len() {
+	    flag += "█";
+	}
+
+
+	print!("{} ", flag_name);
+	cat::print_lines_lol(flag.lines(), c);
+    }
 }
 
 fn print_shark(c: &mut cat::Control) {
@@ -133,7 +160,7 @@ fn print_shark(c: &mut cat::Control) {
 
 fn lolcat_clap_app() -> App<'static, 'static> {
     App::new("BLÅHAJ")
-        .version(env!("CARGO_PKG_VERSION"))
+        .version("v1.0.0")
 	.arg(
             Arg::with_name("background")
                 .short("b")
@@ -161,7 +188,14 @@ fn lolcat_clap_app() -> App<'static, 'static> {
                 .long("words")
                 .help("Color individual words")
                 .takes_value(false),
-	)        
+	)
+	.arg(
+            Arg::with_name("multiplier")
+                .short("m")
+                .long("multiplier")
+                .help("Multiplier for the flag size (-f)")
+                .takes_value(true),
+        )
         .arg(
             Arg::with_name("shark")
                 .short("s")
@@ -174,6 +208,12 @@ fn lolcat_clap_app() -> App<'static, 'static> {
                 .short("f")
                 .long("flag")
                 .help("Return a flag")
+                .takes_value(false),
+        )
+	.arg(
+            Arg::with_name("flags")
+                .long("flags")
+                .help("List all available flags")
                 .takes_value(false),
         )
         .arg(

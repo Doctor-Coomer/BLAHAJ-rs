@@ -83,6 +83,18 @@ for i in range(len(flagnames)):
 spaces(len("pub static ALL_NAMES: &[&str] = &["))
 print("];\n")
 
+flagnames_sorted = flagnames.copy()
+flagnames_sorted.sort()
+#create a string array of all the flag names
+print("pub static ALL_NAMES_SORTED: &[&str] = &[", end="")
+for i in range(len(flagnames_sorted)):
+    if i != 0:
+        spaces(len("pub static ALL_NAMES_SORTED: &[&str] = &["))
+
+    print(f"\"{flagnames_sorted[i]}\",")
+spaces(len("pub static ALL_NAMES_SORTED: &[&str] = &["))
+print("];\n")
+
 #create color getter function
 print("pub fn get_flag(flag_name: &str) -> &'static [(u8, u8, u8)] {")
 for i in range(len(flagnames)):
