@@ -124,7 +124,7 @@ fn print_flag_graphic(mul: usize, c: &mut cat::Control) {
 	c.seed = seed;
 	if y%mul == 0 {
 	    seed += 1;
-	}
+	} 
  	cat::print_lines_lol(flag.lines(), c);
 	flag = String::new();
     }

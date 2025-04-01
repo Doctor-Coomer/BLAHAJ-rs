@@ -1,5 +1,5 @@
 //This file was generated automatically by "parse_colors_to_rust.py"
-
+ 
 
 pub static TRANS: &[(u8, u8, u8)] = &[(91, 206, 250),
                                       (245, 169, 184),
