@@ -25,6 +25,25 @@ $ cargo run --release
 $ #copy "./target/release/blahaj-rs" to which ever bin directory you want
 ```
 
+## How 2 add custom flags!
+
+```bash
+$ nano colors.yaml # Append something of this syntax to the end of the file
+...
+myflagname:
+  color:
+  - FFFFFF
+  - AAAAAA
+  - BBBBBB
+  - 000000
+  - 777777
+...
+
+$ python parse_colors_to_rust.py > src/flags.rs
+$ cargo build --release
+$ cargo run --release
+$ #copy "./target/release/blahaj-rs" to which ever bin directory you want
+```
 
 
 ## Showcase
