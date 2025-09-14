@@ -1,13 +1,6 @@
 //This file was generated automatically by "parse_colors_to_rust.py"
 
 
-pub static MYFLAGNAME: &[(u8, u8, u8)] = &[(255, 255, 255),
-                                           (170, 170, 170),
-                                           (187, 187, 187),
-                                           (0, 0, 0),
-                                           (119, 119, 119),
-                                           ];
-
 pub static TRANS: &[(u8, u8, u8)] = &[(91, 206, 250),
                                       (245, 169, 184),
                                       (255, 255, 255),
