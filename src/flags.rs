@@ -1,5 +1,12 @@
 //This file was generated automatically by "parse_colors_to_rust.py"
- 
+
+
+pub static MYFLAGNAME: &[(u8, u8, u8)] = &[(255, 255, 255),
+                                           (170, 170, 170),
+                                           (187, 187, 187),
+                                           (0, 0, 0),
+                                           (119, 119, 119),
+                                           ];
 
 pub static TRANS: &[(u8, u8, u8)] = &[(91, 206, 250),
                                       (245, 169, 184),
@@ -267,7 +274,8 @@ pub static SAPPHIC: &[(u8, u8, u8)] = &[(102, 51, 153),
 
 pub static NONE:   &[(u8, u8, u8)] = &[(  0,   0,   0)];
 
-pub static ALL_NAMES: &[&str] = &["trans",
+pub static ALL_NAMES: &[&str] = &["myflagname",
+                                  "trans",
                                   "transbian",
                                   "agender",
                                   "ambiamorous",
@@ -321,6 +329,7 @@ pub static ALL_NAMES_SORTED: &[&str] = &["abrosexual",
                                          "genderqueer",
                                          "graysexual",
                                          "lesbian",
+                                         "myflagname",
                                          "nb",
                                          "omnisexual",
                                          "pangender",
@@ -338,72 +347,41 @@ pub static ALL_NAMES_SORTED: &[&str] = &["abrosexual",
                                          ];
 
 pub fn get_flag(flag_name: &str) -> &'static [(u8, u8, u8)] {
-    if flag_name == "trans" || flag_name == "transgender"
-    { return TRANS; }
-    else if flag_name == "transbian"
-    { return TRANSBIAN; }
-    else if flag_name == "agender"
-    { return AGENDER; }
-    else if flag_name == "ambiamorous" || flag_name == "ambiamogus"
-    { return AMBIAMOROUS; }
-    else if flag_name == "aroace"
-    { return AROACE; }
-    else if flag_name == "gay"
-    { return GAY; }
-    else if flag_name == "ace" || flag_name == "asexual"
-    { return ACE; }
-    else if flag_name == "aro" || flag_name == "aromantic"
-    { return ARO; }
-    else if flag_name == "bi" || flag_name == "bisexual"
-    { return BI; }
-    else if flag_name == "genderfluid"
-    { return GENDERFLUID; }
-    else if flag_name == "genderqueer"
-    { return GENDERQUEER; }
-    else if flag_name == "nb" || flag_name == "nonbinary" || flag_name == "enby"
-    { return NB; }
-    else if flag_name == "omnisexual" || flag_name == "omni"
-    { return OMNISEXUAL; }
-    else if flag_name == "bigender"
-    { return BIGENDER; }
-    else if flag_name == "pansexual" || flag_name == "pan"
-    { return PANSEXUAL; }
-    else if flag_name == "pangender"
-    { return PANGENDER; }
-    else if flag_name == "pride" || flag_name == "lgbt" || flag_name == "lgbtq"
-    { return PRIDE; }
-    else if flag_name == "philadelphia" || flag_name == "philly"
-    { return PHILADELPHIA; }
-    else if flag_name == "plural" || flag_name == "plurality" || flag_name == "multiplicity"
-    { return PLURAL; }
-    else if flag_name == "polysexual"
-    { return POLYSEXUAL; }
-    else if flag_name == "progress"
-    { return PROGRESS; }
-    else if flag_name == "lesbian"
-    { return LESBIAN; }
-    else if flag_name == "queer"
-    { return QUEER; }
-    else if flag_name == "demigender"
-    { return DEMIGENDER; }
-    else if flag_name == "demiboy"
-    { return DEMIBOY; }
-    else if flag_name == "demigirl"
-    { return DEMIGIRL; }
-    else if flag_name == "abrosexual" || flag_name == "abro"
-    { return ABROSEXUAL; }
-    else if flag_name == "bear" || flag_name == "bears" || flag_name == "bearpride"
-    { return BEAR; }
-    else if flag_name == "xenogender"
-    { return XENOGENDER; }
-    else if flag_name == "femboy"
-    { return FEMBOY; }
-    else if flag_name == "genderfae"
-    { return GENDERFAE; }
-    else if flag_name == "graysexual"
-    { return GRAYSEXUAL; }
-    else if flag_name == "sapphic"
-    { return SAPPHIC; }
-    else
-    { return NONE; }
+    match flag_name {
+        "myflagname" => MYFLAGNAME,
+        "trans" | "transgender" => TRANS,
+        "transbian" => TRANSBIAN,
+        "agender" => AGENDER,
+        "ambiamorous" | "ambiamogus" => AMBIAMOROUS,
+        "aroace" => AROACE,
+        "gay" => GAY,
+        "ace" | "asexual" => ACE,
+        "aro" | "aromantic" => ARO,
+        "bi" | "bisexual" => BI,
+        "genderfluid" => GENDERFLUID,
+        "genderqueer" => GENDERQUEER,
+        "nb" | "nonbinary" | "enby" => NB,
+        "omnisexual" | "omni" => OMNISEXUAL,
+        "bigender" => BIGENDER,
+        "pansexual" | "pan" => PANSEXUAL,
+        "pangender" => PANGENDER,
+        "pride" | "lgbt" | "lgbtq" => PRIDE,
+        "philadelphia" | "philly" => PHILADELPHIA,
+        "plural" | "plurality" | "multiplicity" => PLURAL,
+        "polysexual" => POLYSEXUAL,
+        "progress" => PROGRESS,
+        "lesbian" => LESBIAN,
+        "queer" => QUEER,
+        "demigender" => DEMIGENDER,
+        "demiboy" => DEMIBOY,
+        "demigirl" => DEMIGIRL,
+        "abrosexual" | "abro" => ABROSEXUAL,
+        "bear" | "bears" | "bearpride" => BEAR,
+        "xenogender" => XENOGENDER,
+        "femboy" => FEMBOY,
+        "genderfae" => GENDERFAE,
+        "graysexual" => GRAYSEXUAL,
+        "sapphic" => SAPPHIC,
+        _ => NONE,
+    }
 }

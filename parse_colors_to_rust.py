@@ -37,78 +37,41 @@ def spaces(i:int):
     for _ in range(i):
         print(" ", end="")
 
-"""
-for i in range(len(flagnames)):
-    print(flagnames[i], end=" ")
-    for h in namealias[i]:
-        print(f"({h})", end=" ")
-    for h in flagcolors[i]:
-        print(hex2rgb(h), end= " ")
-    print()
-"""
-
-#create static flag color arrays
 for i in range(len(flagnames)):
     print(f"pub static {flagnames[i].upper()}: &[(u8, u8, u8)] = &[", end="")
     for h in range(len(flagcolors[i])):
         if h != 0:
             spaces(len(f"pub static {flagnames[i].upper()}: &[(u8, u8, u8)] = &["))
         print(f"{hex2rgb(flagcolors[i][h])},")
-
     spaces(len(f"pub static {flagnames[i].upper()}: &[(u8, u8, u8)] = &["))
     print("];\n")
 
 print("pub static NONE:   &[(u8, u8, u8)] = &[(  0,   0,   0)];\n")
 
-
-"""
-#create array of all the flag arrays
-print("pub static ALL: &[&[(u8, u8, u8)]] = &[", end="")
-for i in range(len(flagnames)):
-    if i != 0:
-        spaces(len("pub static ALL: &[&[(u8, u8, u8)]] = &["))
-
-    print(f"{flagnames[i].upper()},")
-spaces(len("pub static ALL: &[&[(u8, u8, u8)]] = &["))
-print("];\n")
-"""
-
-#create a string array of all the flag names
 print("pub static ALL_NAMES: &[&str] = &[", end="")
 for i in range(len(flagnames)):
     if i != 0:
         spaces(len("pub static ALL_NAMES: &[&str] = &["))
-
     print(f"\"{flagnames[i]}\",")
 spaces(len("pub static ALL_NAMES: &[&str] = &["))
 print("];\n")
 
 flagnames_sorted = flagnames.copy()
 flagnames_sorted.sort()
-#create a string array of all the flag names
 print("pub static ALL_NAMES_SORTED: &[&str] = &[", end="")
 for i in range(len(flagnames_sorted)):
     if i != 0:
         spaces(len("pub static ALL_NAMES_SORTED: &[&str] = &["))
-
     print(f"\"{flagnames_sorted[i]}\",")
 spaces(len("pub static ALL_NAMES_SORTED: &[&str] = &["))
 print("];\n")
 
-#create color getter function
 print("pub fn get_flag(flag_name: &str) -> &'static [(u8, u8, u8)] {")
+print("    match flag_name {")
 for i in range(len(flagnames)):
-    if i == 0:
-        print(f"    if flag_name == \"{flagnames[i]}\"", end="")
-        for h in namealias[i]:
-            print(f" || flag_name == \"{h}\"", end="")
-        print("\n    {", f"return {flagnames[i].upper()};", "}")
-        continue
-
-    print(f"    else if flag_name == \"{flagnames[i]}\"", end="")
-    for h in namealias[i]:
-            print(f" || flag_name == \"{h}\"", end="")
-    print("\n    {", f"return {flagnames[i].upper()};", "}")
-    
-print("    else\n    { return NONE; }")
+    all_names = [flagnames[i]] + namealias[i]
+    patterns = " | ".join(f"\"{name}\"" for name in all_names)
+    print(f"        {patterns} => {flagnames[i].upper()},")
+print("        _ => NONE,")
+print("    }")
 print("}")
