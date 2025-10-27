@@ -267,8 +267,7 @@ pub static SAPPHIC: &[(u8, u8, u8)] = &[(102, 51, 153),
 
 pub static NONE:   &[(u8, u8, u8)] = &[(  0,   0,   0)];
 
-pub static ALL_NAMES: &[&str] = &["myflagname",
-                                  "trans",
+pub static ALL_NAMES: &[&str] = &["trans",
                                   "transbian",
                                   "agender",
                                   "ambiamorous",
@@ -322,7 +321,6 @@ pub static ALL_NAMES_SORTED: &[&str] = &["abrosexual",
                                          "genderqueer",
                                          "graysexual",
                                          "lesbian",
-                                         "myflagname",
                                          "nb",
                                          "omnisexual",
                                          "pangender",
@@ -341,7 +339,6 @@ pub static ALL_NAMES_SORTED: &[&str] = &["abrosexual",
 
 pub fn get_flag(flag_name: &str) -> &'static [(u8, u8, u8)] {
     match flag_name {
-        "myflagname" => MYFLAGNAME,
         "trans" | "transgender" => TRANS,
         "transbian" => TRANSBIAN,
         "agender" => AGENDER,
